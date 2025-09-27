@@ -1,6 +1,41 @@
-version: '3.8'
-
 services:
+  # Service Ollama avec llama3.2:1b
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama-chatia
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    restart: unless-stopped
+    networks:
+      - chatia-network
+
+  # Service pour télécharger le modèle llama3.2:1b
+  ollama-setup:
+    image: ollama/ollama:latest
+    container_name: ollama-setup
+    depends_on:
+      - ollama
+    volumes:
+      - ollama_data:/root/.ollama
+    entrypoint: |
+      sh -c "
+        echo 'Attente du démarrage d''Ollama...'
+        sleep 10
+        echo 'Téléchargement du modèle llama3.2:1b...'
+        ollama pull llama3.2:1b
+        echo 'Modèle llama3.2:1b installé avec succès!'
+      "
+    environment:
+      - OLLAMA_HOST=ollama:11434
+    networks:
+      - chatia-network
+    restart: "no"
+
+  # Application de contrôle des LEDs
   chatia-led-controller:
     build: .
     container_name: chatia-led-controller
@@ -11,9 +46,17 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
+      - OLLAMA_URL=http://ollama:11434
+      - LED_WEBSOCKET_URL=ws://192.168.0.90:1800
+    depends_on:
+      - ollama
     restart: unless-stopped
     networks:
       - chatia-network
+
+volumes:
+  ollama_data:
+    driver: local
 
 networks:
   chatia-network:

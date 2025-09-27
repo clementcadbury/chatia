@@ -10,7 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Configuration
-const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434';
+const OLLAMA_URL = process.env.OLLAMA_URL || 'http://192.168.0.200:11434';
 const LED_WEBSOCKET_URL = process.env.LED_WEBSOCKET_URL || 'ws://192.168.0.90:1800';
 
 // Middleware
@@ -148,7 +148,7 @@ Réponds SEULEMENT avec le JSON, aucun autre texte.`;
 
         console.log(`Requête Ollama: ${OLLAMA_URL}/api/chat`);
         const response = await axios.post(`${OLLAMA_URL}/api/chat`, {
-            model: 'llama3.2:3b',
+            model: 'llama3.2:1b',
             messages: messages,
             stream: false
         });
