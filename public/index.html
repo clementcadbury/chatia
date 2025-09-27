@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrôleur LEDs RGB - ChatIA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌈 Contrôleur LEDs RGB</h1>
+            <p>Contrôlez vos LEDs avec des commandes en langage naturel</p>
+        </header>
+
+        <main>
+            <!-- Zone de prévisualisation des couleurs -->
+            <div class="color-preview" id="colorPreview">
+                <div class="color-circle" id="colorCircle"></div>
+                <div class="rgb-values" id="rgbValues">R: 0, G: 0, B: 0</div>
+            </div>
+
+            <!-- Zone de chat -->
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot-message">
+                        <div class="message-content">
+                            👋 Salut ! Je peux contrôler tes LEDs RGB. Essaie des commandes comme :
+                            <ul>
+                                <li>"Allume en rouge"</li>
+                                <li>"Couleur bleue"</li>
+                                <li>"Éteins les LEDs"</li>
+                                <li>"Violet"</li>
+                                <li>"Orange"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <div class="input-group">
+                        <input type="text" id="messageInput" placeholder="Tapez ou parlez votre commande..." maxlength="200">
+                        <button id="voiceButton" class="voice-btn" title="Cliquez pour parler">
+                            <span class="voice-icon">🎤</span>
+                        </button>
+                        <button id="sendButton" class="send-btn">
+                            <span class="send-icon">➤</span>
+                        </button>
+                    </div>
+                    <div class="voice-status" id="voiceStatus"></div>
+                    <div class="browser-info" id="browserInfo"></div>
+                </div>
+            </div>
+
+            <!-- Boutons de test rapide -->
+            <div class="quick-actions">
+                <h3>Actions rapides</h3>
+                <div class="quick-buttons">
+                    <button class="quick-btn" data-color="rouge">🔴 Rouge</button>
+                    <button class="quick-btn" data-color="vert">🟢 Vert</button>
+                    <button class="quick-btn" data-color="bleu">🔵 Bleu</button>
+                    <button class="quick-btn" data-color="jaune">🟡 Jaune</button>
+                    <button class="quick-btn" data-color="violet">🟣 Violet</button>
+                    <button class="quick-btn" data-color="blanc">⚪ Blanc</button>
+                    <button class="quick-btn" data-color="éteindre">⚫ Éteindre</button>
+                </div>
+            </div>
+
+            <!-- Statut des connexions -->
+            <div class="status-panel">
+                <div class="status-item">
+                    <span class="status-label">Ollama:</span>
+                    <span class="status-indicator" id="ollamaStatus">🔴 Déconnecté</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">LEDs:</span>
+                    <span class="status-indicator" id="ledStatus">🔴 Déconnecté</span>
+                </div>
+            </div>
+
+            <!-- Historique -->
+            <div class="history-section">
+                <h3>Historique récent</h3>
+                <div class="history-list" id="historyList">
+                    <!-- L'historique sera chargé ici -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p>Traitement en cours...</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

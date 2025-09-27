@@ -1,0 +1,38 @@
+services:
+  # Interface Web Open WebUI - Se connecte à votre Ollama existant
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    ports:
+      - "3000:8080"
+    environment:
+      # Connexion à Ollama sur le Raspberry Pi
+      - OLLAMA_BASE_URL=http://192.168.0.200:11434
+      
+      # Configuration optionnelle
+      - WEBUI_SECRET_KEY=mon-secret-key-chatia
+      - WEBUI_JWT_SECRET_KEY=mon-jwt-secret-chatia
+      - DEFAULT_MODELS=llama3.2:1b
+      - DEFAULT_USER_ROLE=admin
+      
+      # Configuration de l'interface (optionnel)
+      - WEBUI_NAME="ChatIA - Remote Ollama"
+      - ENABLE_SIGNUP=false
+      - ENABLE_LOGIN_FORM=false
+      - ENABLE_OAUTH_SIGNUP=false
+      - WEBUI_AUTH=false
+    volumes:
+      - open_webui_data:/app/backend/data
+    restart: unless-stopped
+    # Pas besoin d'extra_hosts pour une IP distante
+    # networks:
+    #   - ollama-network
+
+volumes:
+  open_webui_data:
+    driver: local
+
+# Pas besoin de réseau spécifique pour une connexion IP distante
+# networks:
+#   ollama-network:
+#     external: true
